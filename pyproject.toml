@@ -1,0 +1,22 @@
+[build-system]
+requires = ["setuptools"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "spanner_analytics"
+version = "0.0.1"
+dependencies = [
+    "google-cloud-spanner",
+    "google-auth",
+    "numpy",
+    "pandas"
+]
+
+[project.optional-dependencies]
+test = [
+  "pytest",
+  "nbformat"
+]
+magic = [
+  "ipython"
+]
