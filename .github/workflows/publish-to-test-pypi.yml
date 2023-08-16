@@ -1,0 +1,58 @@
+name: Publish Python 🐍 distributions 📦 to PyPI and TestPyPI
+
+on:
+  push:
+    branches:
+      - main
+
+# This job should be kept in sync with the job in `build-test.yml`,
+# except the version in that file should actually publish the built artifacts,
+# not just validate that they build.
+
+jobs:
+  build-n-publish:
+    name: Build and publish Python 🐍 distributions 📦 to PyPI and TestPyPI
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Check for Version Change
+      id: version
+      run: >-
+        if [ -n "$(git diff pyproject.toml | grep '^+version =')" ]; then
+          echo "version_changed=true" >> "$GITHUB_OUTPUT"
+        else
+          echo "version_changed=false" >> "$GITHUB_OUTPUT"
+        fi
+    - name: Set up Python
+      if: ${{ steps.version.version_changed == "true" }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.x"
+    - name: Install pypa/build
+      if: ${{ steps.version.version_changed == 'true' }}
+      run: >-
+        python3 -m
+        pip install
+        build
+        --user
+    - name: Build a binary wheel and a source tarball
+      if: ${{ steps.version.version_changed == 'true' }}
+      run: >-
+        cat pyproject.toml ;
+        python3 -m
+        build
+        --sdist
+        --wheel
+        --outdir dist/
+        .
+    - name: Publish distribution 📦 to Test PyPI
+      if: ${{ steps.version.version_changed == 'true' }}
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        password: ${{ secrets.TEST_PYPI_API_TOKEN }}
+        repository-url: https://test.pypi.org/legacy/
+    - name: Publish distribution 📦 to PyPI
+      if: ${{ steps.version.version_changed == 'true' }}
+      uses: pypa/gh-action-pypi-publish@release/v1
+      with:
+        password: ${{ secrets.PYPI_API_TOKEN }}

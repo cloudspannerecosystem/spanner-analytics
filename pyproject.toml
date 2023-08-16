@@ -16,11 +16,17 @@ readme = "README.md"
 [project.optional-dependencies]
 test = [
   "pytest",
-  "nbformat"
+  "nbformat",
+  "nbconvert",
+  "jupyter"
 ]
 magic = [
+  "jupyter-client",
   "ipython"
 ]
 
 [project.urls]
 Homepage = "https://github.com/cloudspannerecosystem/spanner-analytics"
+
+[tool.setuptools]
+packages = ["spanner_analytics"]
