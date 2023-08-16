@@ -16,9 +16,12 @@ readme = "README.md"
 [project.optional-dependencies]
 test = [
   "pytest",
-  "nbformat"
+  "nbformat",
+  "nbconvert",
+  "jupyter"
 ]
 magic = [
+  "jupyter-client",
   "ipython"
 ]
 
