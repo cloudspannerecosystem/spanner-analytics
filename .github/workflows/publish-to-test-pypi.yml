@@ -23,7 +23,7 @@ jobs:
           pip install -e '.[test,magic]'
       - name: Test with pytest
         run: |
-          python -m pytest
+          python -m pytest -vvvs --full-trace
 
   build-n-publish:
     name: Build and publish Python 🐍 distributions 📦 to PyPI and TestPyPI
