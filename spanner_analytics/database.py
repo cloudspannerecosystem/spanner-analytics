@@ -12,6 +12,8 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
+from __future__ import annotations
+
 """Represents a connection to a Cloud Spanner database.
 
 Intended for running larger analytic operations.
