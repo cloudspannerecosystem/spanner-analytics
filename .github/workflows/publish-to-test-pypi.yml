@@ -1,34 +1,11 @@
 name: Publish Python 🐍 distributions 📦 to PyPI and TestPyPI
 
-on: push
-jobs:
-  test:
-    runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        python-version: ["3.7", "3.8", "3.9", "3.10", "3.11"]
-    steps:
-      - uses: actions/checkout@v3
-      - name: Set up Python ${{ matrix.python-version }}
-        uses: actions/setup-python@v4
-        with:
-          python-version: ${{ matrix.python-version }}
-      - name: Install gcloud
-        run: |
-          sudo apt-get update
-          sudo apt-get install apt-transport-https ca-certificates gnupg curl sudo
-          echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | sudo tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
-          curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
-          sudo apt-get update
-          sudo apt-get install google-cloud-sdk google-cloud-sdk-spanner-emulator
-      - name: Install dependencies
-        run: |
-          python -m pip install --upgrade pip build
-          pip install -e '.[test,magic]'
-      - name: Test with pytest
-        run: |
-          python -m pytest -vvvs --full-trace
+on:
+  push:
+    branches:
+      - main
 
+jobs:
   build-n-publish:
     name: Build and publish Python 🐍 distributions 📦 to PyPI and TestPyPI
     runs-on: ubuntu-latest
