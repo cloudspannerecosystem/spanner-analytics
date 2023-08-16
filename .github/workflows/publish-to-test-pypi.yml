@@ -19,6 +19,7 @@ jobs:
         --user
     - name: Build a binary wheel and a source tarball
       run: >-
+        cat pyproject.toml ;
         python3 -m
         build
         --sdist

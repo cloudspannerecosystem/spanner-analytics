@@ -24,3 +24,6 @@ magic = [
 
 [project.urls]
 Homepage = "https://github.com/cloudspannerecosystem/spanner-analytics"
+
+[tool.setuptools]
+packages = ["spanner_analytics"]
