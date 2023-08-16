@@ -15,17 +15,28 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
+    - name: Check for Version Change
+      id: version
+      run: >-
+        if [ -n "$(git diff pyproject.toml | grep '^+version =')" ]; then
+          echo "version_changed=true" >> "$GITHUB_OUTPUT"
+        else
+          echo "version_changed=false" >> "$GITHUB_OUTPUT"
+        fi
     - name: Set up Python
+      if: steps.version.version_changed == "true"
       uses: actions/setup-python@v4
       with:
         python-version: "3.x"
     - name: Install pypa/build
+      if: steps.version.version_changed == "true"
       run: >-
         python3 -m
         pip install
         build
         --user
     - name: Build a binary wheel and a source tarball
+      if: steps.version.version_changed == "true"
       run: >-
         cat pyproject.toml ;
         python3 -m
@@ -35,13 +46,13 @@ jobs:
         --outdir dist/
         .
     - name: Publish distribution 📦 to Test PyPI
-      if: startsWith(github.ref, 'refs/tags')
+      if: steps.version.version_changed == "true"
       uses: pypa/gh-action-pypi-publish@release/v1
       with:
         password: ${{ secrets.TEST_PYPI_API_TOKEN }}
         repository-url: https://test.pypi.org/legacy/
     - name: Publish distribution 📦 to PyPI
-      if: startsWith(github.ref, 'refs/tags')
+      if: steps.version.version_changed == "true"
       uses: pypa/gh-action-pypi-publish@release/v1
       with:
         password: ${{ secrets.PYPI_API_TOKEN }}
