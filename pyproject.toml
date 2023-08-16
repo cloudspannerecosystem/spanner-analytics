@@ -4,13 +4,14 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "spanner_analytics"
-version = "0.0.1"
+version = "1.0.0"
 dependencies = [
     "google-cloud-spanner",
     "google-auth",
     "numpy",
     "pandas"
 ]
+readme = "README.md"
 
 [project.optional-dependencies]
 test = [
@@ -20,3 +21,6 @@ test = [
 magic = [
   "ipython"
 ]
+
+[project.urls]
+Homepage = "https://github.com/cloudspannerecosystem/spanner-analytics"
