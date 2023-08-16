@@ -5,6 +5,10 @@ on:
     branches:
       - main
 
+# This job should be kept in sync with the job in `build-test.yml`,
+# except the version in that file should actually publish the built artifacts,
+# not just validate that they build.
+
 jobs:
   build-n-publish:
     name: Build and publish Python 🐍 distributions 📦 to PyPI and TestPyPI

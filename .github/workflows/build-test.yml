@@ -1,0 +1,33 @@
+name: Test the Build
+
+on: push
+
+# This job should be kept in sync with the job in `publish-to-test-pypi.yml`,
+# except the version in this file shouldn't actually publish any changes,
+# and should run on any push (not just a push to main).
+
+jobs:
+  build:
+    name: Build Python 🐍 distributions 📦
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v3
+    - name: Set up Python
+      uses: actions/setup-python@v4
+      with:
+        python-version: "3.x"
+    - name: Install pypa/build
+      run: >-
+        python3 -m
+        pip install
+        build
+        --user
+    - name: Build a binary wheel and a source tarball
+      run: >-
+        cat pyproject.toml ;
+        python3 -m
+        build
+        --sdist
+        --wheel
+        --outdir dist/
+        .
