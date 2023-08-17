@@ -8,3 +8,7 @@ machine learning on Spanner.
 This example walks through using the extensions in this repository to query Spanner
 and train a scikit-learn model based on data from Spanner.
 
+* Text Embeddings using Spanner's DBAPI Driver ([Colab](https://colab.research.google.com/github/cloudspannerecosystem/Text%20Embeddings%20using%20Spanner's%20DBAPI%20Driver.ipynb)|[.ipynb](Text%20Embeddings%20using%20Spanner's%20DBAPI%20Driver.ipynb))
+
+This example shows how to register a Vertex AI embedding model with Spanner, and
+how to ingest, embed, and retrieve data to/from Spanner.
